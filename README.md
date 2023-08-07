@@ -22,3 +22,7 @@ THEN the password is either displayed in an alert or written to the page
 
 ## Source Code 
 https://github.com/coding-boot-camp/friendly-parakeet.git
+
+## Screenshot
+![Alt text](Develop/Screenshot.png)
+
