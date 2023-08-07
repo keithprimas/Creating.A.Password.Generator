@@ -1,45 +1,73 @@
 // Assignment code here
 
-function generatePassword(length) {
+function generatePassword(length, includeLowercase, includeUppercase, includeNumbers, includeSpecialChars) {
   let password = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-  for (let i = 0; i < 10; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    password += characters[randomIndex];
+  const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+  const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const numericChars = '0123456789';
+  const specialChars = '!@#$%^&*()_+~`|}{[]\:;?><,./-=';
+  
+  let availableChars = '';
+  
+  // Add characters based on user criteria
+  if (includeLowercase) {
+    availableChars += lowercaseChars;
   }
+  if (includeUppercase) {
+    availableChars += uppercaseChars;
+  }
+  if (includeNumbers) {
+    availableChars += numericChars;
+  }
+  if (includeSpecialChars) {
+    availableChars += specialChars;
+  }
+  
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * availableChars.length);
+    password += availableChars[randomIndex];
+  }
+  
   return password;
 }
 
 function getPasswordCriteria() {
   const length = parseInt(prompt("Enter password length"));
+  
   const includeLowercase = confirm("Include lowercase letters?");
   const includeUppercase = confirm("Include uppercase letters?");
   const includeNumbers = confirm("Include numbers?");
   const includeSpecialChars = confirm("Include special characters?");
+  
+  if (!(includeLowercase || includeUppercase || includeNumbers || includeSpecialChars)) {
+    alert("Please select at least one option.");
+    return getPasswordCriteria(); // Restart the function to prompt again
+  }
+  
   return {
     length,
-    includeLowercase,
-    includeUppercase,
-    includeNumbers,
-    includeSpecialChars,
+    includeLowercase: includeLowercase ? includeLowercase : false,
+    includeUppercase: includeUppercase ? includeUppercase : false,
+    includeNumbers: includeNumbers ? includeNumbers : false,
+    includeSpecialChars: includeSpecialChars ? includeSpecialChars : false,
   };
 }
 
-
 const generateButton = document.getElementById('generate-button');
 generateButton.addEventListener('click', () => {
-  const passwordLength = getPasswordCriteria().length;
-  const generatedPassword = generatePassword(passwordLength);
-  const passwordDisplay = document.getElementById('password-display');
-  passwordDisplay.textContent = generatedPassword;
+  const passwordCriteria = getPasswordCriteria();
+  const generatedPassword = generatePassword(
+    passwordCriteria.length,
+    passwordCriteria.includeLowercase,
+    passwordCriteria.includeUppercase,
+    passwordCriteria.includeNumbers,
+    passwordCriteria.includeSpecialChars
+  );
+  
+  var passwordText = document.querySelector("#password");
+  passwordText.value = generatedPassword;
 });
 
-const displayButton = document.getElementById('generate-button');
-displayButton.addEventListener('click', () => {
-  const myParagraph = document.getElementById('password-display');
-  const myTextarea = document.getElementById('password');
-  myTextarea.value = passwordDisplay.textContent;
-});
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
@@ -52,3 +80,4 @@ function writePassword() {
 }
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
+
