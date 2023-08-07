@@ -9,7 +9,6 @@ function generatePassword(length, includeLowercase, includeUppercase, includeNum
   
   let availableChars = '';
   
-  // Add characters based on user criteria
   if (includeLowercase) {
     availableChars += lowercaseChars;
   }
@@ -27,6 +26,9 @@ function generatePassword(length, includeLowercase, includeUppercase, includeNum
     const randomIndex = Math.floor(Math.random() * availableChars.length);
     password += availableChars[randomIndex];
   }
+  if (password.length < 8 || password.length > 128) {
+    return 'Password length must be between 8 and 128 characters.';
+  }
   
   return password;
 }
@@ -41,7 +43,7 @@ function getPasswordCriteria() {
   
   if (!(includeLowercase || includeUppercase || includeNumbers || includeSpecialChars)) {
     alert("Please select at least one option.");
-    return getPasswordCriteria(); // Restart the function to prompt again
+    return getPasswordCriteria();
   }
   
   return {
