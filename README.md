@@ -24,7 +24,7 @@ THEN the password is either displayed in an alert or written to the page
 https://github.com/coding-boot-camp/friendly-parakeet.git
 
 ## Screenshot
-![Alt text](Develop/Screenshot.png)
+![Alt text](Screenshot.png)
 
 ## Deployed Website 
 https://keithprimas.github.io/Creating.A.Password.Generator/
